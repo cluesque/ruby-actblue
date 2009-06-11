@@ -34,7 +34,7 @@ end
 module ActBlue
   
   ACTBLUE_VERSION = "2007-10-1"
-  ACTBLUE_URL = "https://secure.actblue.com"
+  ACTBLUE_URL = ENV['ACTBLUE_URL'] || "https://secure.actblue.com"
   
   class ActiveBlue
     include HTTParty
