@@ -10,6 +10,8 @@ class REXMLUtilityNode
   end
 end
 
+#! Made obsolete at least as of HTTParty 0.4.3 -- whk
+unless HTTParty::Request.private_instance_methods.include?("parse_response")
 module HTTParty
   class Request
     def parse_response(body)
@@ -26,6 +28,7 @@ module HTTParty
         end
     end
   end
+end
 end
 
 module ActBlue
