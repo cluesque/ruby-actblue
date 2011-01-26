@@ -7,6 +7,12 @@ ENV['ACTBLUE_USER'] = <EMAIL>
 ENV['ACTBLUE_PASS'] = <PASSWORD>
 </pre>
 
+If you are using Bundler, add something like this to your gemfile:
+
+<pre>
+gem 'ruby-actblue', :git => 'git://github.com/woodhull/ruby-actblue.git', :require => "actblue"
+</pre>
+
 h1. Terms
 
 A *Contribution* represents a donation from a given source to a given destination.
