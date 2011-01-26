@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.has_rdoc = false
   s.add_dependency("httparty", [">= 0.7.3"])
   
+  s.add_development_dependency "ruby-debug19"
   s.add_development_dependency "rspec", "~>1.3"
   
   

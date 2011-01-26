@@ -23,20 +23,49 @@ module ActBlue
     headers 'Accept' => 'application/xml'
     
     attr_accessor :variables
+    
+    line_items_lambda = lambda do |hash| 
+      if (hash.is_a?(Array) && hash.first.class.name == "ActBlue::LineItem") 
+        return hash 
+      else
+        collection = [] 
+        if hash['lineitem'].is_a?(Hash) 
+          collection << LineItem.new(hash['lineitem'])
+        else 
+          hash['lineitem'].each {|l| collection << LineItem.new(l); }
+        end
+        return collection
+      end
+    end 
+    
+    listentries_lambda = lambda do |hash| 
+      if (hash.is_a?(Array) && hash.first.class.name == "ActBlue::ListEntry")
+         return hash 
+      else 
+        collection = []
+        if hash['listentry'].is_a?(Hash)
+          collection << ListEntry.new(hash['listentry'])
+        else 
+          hash['listentry'].each {|l| collection << ListEntry.new(l); }
+        end 
+        return collection
+      end
+    end
+  
   
     ACT_TYPES = {
       'source' => 'Source', 
       'page' => 'Page', 
       'lineitem' => 'LineItem', 
-      'lineitems' => lambda {|hash| if (hash.is_a?(Array) && hash.first.class.name == "ActBlue::LineItem") then return hash end; collection = []; if hash['lineitem'].is_a?(Hash) then collection << LineItem.new(hash['lineitem']); else hash['lineitem'].each {|l| collection << LineItem.new(l); }; end; return collection; },
+      'lineitems' => line_items_lambda,
       'entity' => 'Entity', 
       'instrument' => 'Instrument', 
       'election' => 'Election',
       'expires' => 'Expires',
       'listentry' => 'ListEntry',
-      'listentries' => lambda {|hash| if (hash.is_a?(Array) && hash.first.class.name == "ActBlue::ListEntry") then return hash end; collection = []; if hash['listentry'].is_a?(Hash) then collection << ListEntry.new(hash['listentry']); else hash['listentry'].each {|l| collection << ListEntry.new(l); }; end; return collection; },
-      'creditcard' => 'CreditCard',
+      'listentries' => listentries_lambda,
       'check' => 'Check',
+      'creditcard' => 'CreditCard',
       'candidacy' => 'Candidacy',
       'office' => 'Office'
     }
@@ -84,13 +113,13 @@ module ActBlue
           if ACT_TYPES[e] && ACT_TYPES[e].is_a?(Proc)
             parentElement = REXML::Element.new(e)
             @variables[e].each do |c|
-              if c.methods.include? "to_xml_element"
+              if c.respond_to? :to_xml_element
                 parentElement.add_element(c.to_xml_element)
               end
             end
             element.add_element(parentElement)
           else
-            if @variables[e].methods.include? "to_xml_element"
+            if @variables[e].respond_to? :to_xml_element
               element.add_element(@variables[e].to_xml_element)
             else
               newElement = REXML::Element.new(e)
