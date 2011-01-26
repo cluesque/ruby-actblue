@@ -10,27 +10,6 @@ class REXMLUtilityNode
   end
 end
 
-#! Made obsolete at least as of HTTParty 0.4.3 -- whk
-unless HTTParty::Request.private_instance_methods.include?("parse_response")
-module HTTParty
-  class Request
-    def parse_response(body)
-      return nil if body.nil? or body.empty? or body.strip.empty?
-      case format
-        when :xml
-          HTTParty::Parsers::XML.parse(body)
-        when :json
-          HTTParty::Parsers::JSON.decode(body)
-        when :yaml
-          YAML::load(body)
-        else
-          body
-        end
-    end
-  end
-end
-end
-
 module ActBlue
   
   ACTBLUE_VERSION = "2007-10-1"

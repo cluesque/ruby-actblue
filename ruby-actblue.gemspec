@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors = ["Kyle Shank", "Nathan Woodhull", ""]
   s.files = [Dir.glob("{bin,lib}/**/*") + %w(README)]
   s.has_rdoc = false
-  s.add_dependency("httparty", [">= 0.3.1"])
+  s.add_dependency("httparty", [">= 0.7.3"])
   
   s.add_development_dependency "rspec", "~>1.3"
   
