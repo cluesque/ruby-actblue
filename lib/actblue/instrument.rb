@@ -1,10 +1,10 @@
 module ActBlue
   
-  class Instrument < ActiveBlue
+  class Instrument
+    include ActiveBlue
     
     XML_NAME = 'instrument'
-    ATTRIBUTES = []
-    ELEMENTS = ['creditcard', 'check']
+    add_elements ['creditcard', 'check']
     
   end
   

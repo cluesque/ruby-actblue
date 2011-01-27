@@ -48,14 +48,21 @@ This library has a specific way to build and read API objects.  Each class can t
 # Modify the title later
 @p["title"] => "My Awesome Campaign"
 
+# or use the ruby style accessor
+
+@p.title = 'My Awesome Campaign'
+
 # Look at all the variables
 @p.variables.inspect
 => {"title" => "My Awesome Campaign"}
+
+# or a specific one.
+
+@p.title.inspect
+=> "My Awesome Campaign"
 </pre>
 
-Each API object has 3 constants defined: XML_NAME, ATTRIBUTES and ELEMENTS.  The ATTRIBUTES and ELEMENTS reveal the possible variables you can pass into the constructor and modify per the example above.  The XML_NAME is used for serializing an API object to XML for delivery back to ActBlue.
-
-The reason a variable hash is exposed with the [] operator and variables are not simply getter/setter instance methods is due to the fact that the ActBlue API has several attributes and elements that have a '-' dash in their name.
+Original ActBlue field names are available with the [] operator - this allows access to  attributes and elements that have a '-' dash in their name. Ruby equivalents to these names are available as accessor methods with the dashes replaced with underscores. 
 
 When creating objects with nested elements you should use the corresponding API objects.  For example if I wanted to add some Listentries to the Page object we were working with above:
 

@@ -1,10 +1,10 @@
 module ActBlue
   
-  class Expires < ActiveBlue
+  class Expires
+    include ActiveBlue
     
     XML_NAME   =  'expires'
-    ATTRIBUTES =  ['year', 'month']
-    ELEMENTS =    []
+    add_attributes  ['year', 'month']
     
   end
   

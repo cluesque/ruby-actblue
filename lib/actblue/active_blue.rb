@@ -4,7 +4,7 @@ module ActBlue
   ACTBLUE_VERSION = "2007-10-1"
   ACTBLUE_URL = ENV['ACTBLUE_URL'] || "https://secure.actblue.com"
   
-  class ActiveBlue
+  module ActiveBlue
     include HTTParty
     format :xml
     base_uri "#{ACTBLUE_URL}/#{ACTBLUE_VERSION}"
@@ -13,6 +13,51 @@ module ActBlue
     
     attr_accessor :variables
     
+    # add accessors and other class methods places where this has been included 
+    
+    module ClassMethods
+      def elements 
+        @elements || []
+      end 
+      
+      def attributes
+        @attributes || []
+      end
+      
+      def add_attributes(attributes)
+        @attributes = attributes
+        setup_accessors(attributes) 
+      end
+      
+      def add_elements(elements)
+        @elements = elements
+        setup_accessors(elements)
+      end
+      
+      def setup_accessors(names)
+        accessor_name_hash  = { }
+        names.each do | key |
+          accessor_name_hash[key.gsub('-', '_')] = key
+        end
+        
+        accessor_name_hash.each do | accessor_name, variable_name|
+          # assignment
+          define_method "#{accessor_name}=".intern do | value |
+            @variables[variable_name] = value
+          end
+          # access
+          define_method accessor_name.intern do
+            @variables[variable_name]
+          end
+        end
+      end
+
+    end
+    
+    def self.included(base)
+      base.extend ClassMethods
+    end
+        
     def line_items_lambda 
       lambda do |hash| 
         if (hash.is_a?(Array) && hash.first.class.name == "ActBlue::LineItem") 
@@ -99,10 +144,10 @@ module ActBlue
     
     def to_xml_element
       element = REXML::Element.new(self.class::XML_NAME)
-      self.class::ATTRIBUTES.each do |a|
+      self.class.attributes.each do |a|
         element.add_attribute(a, @variables[a]) if @variables[a]
       end
-      self.class::ELEMENTS.each do |e|
+      self.class.elements.each do |e|
         if @variables[e]
           if act_types[e] && act_types[e].is_a?(Proc)
             parentElement = REXML::Element.new(e)

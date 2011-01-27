@@ -33,6 +33,24 @@ describe ActBlue::Page do
     end
   end
   
+  describe "accessors" do
+    it "should have basic accessors" do
+      page = Page.new(:title => "test title", "listentries" => {"listentry" => [{:blurb => "body one"}, {:blurb => "body two"}]})
+      page.title.should == 'test title'
+      page.title = 'another title'
+      page.title.should == 'another title'
+      page['title'].should == 'another title'
+    end
+    
+    it "should autotransform accessors with dashes" do
+      t = Time.now
+      page = Page.new('created-on' => t, :title => "test title", "listentries" => {"listentry" => [{:blurb => "body one"}, {:blurb => "body two"}]})
+      page.created_on.should == t
+      page.created_on = 'foo'
+      page['created-on'].should == 'foo'
+    end
+  end
+  
   describe "#to_xml" do
     it "should describe the contribution in xml" do
       page = ActBlue::Page.new('name' => 'a', 'title' => 'b')
