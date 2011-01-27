@@ -26,6 +26,7 @@ The ActBlue API is somewhat restricted compared to its base Indigo documentation
 You can:
 
 * Get Contributions for a given entity (candidate)
+* View Pages
 * Create new Pages
 * Update Pages
 * Delete Pages
@@ -115,4 +116,12 @@ Using the @p Page instance from above.  This simply sets the "visibility" Page v
 
 <pre>
 @p.delete
+</pre>
+
+h4. Page.get
+
+Retrieves page metadata for an existing fundraising page. 
+
+<pre>
+@p = Page.get 'reidstandingstrong'
 </pre>

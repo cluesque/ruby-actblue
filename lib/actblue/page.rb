@@ -19,6 +19,16 @@ module ActBlue
       ActiveBlue.put("/pages/#{@variables['name']}", :body => to_xml) if @variables['name']
     end
     
+    def self.get(name)
+      hash = ActiveBlue.get("/page/#{name}", :base_uri => ACTBLUE_URL)
+      if hash.response.code == '200'  
+        Page.new hash
+      else
+        return nil
+      end
+    end
+    
+
   end
   
 end
