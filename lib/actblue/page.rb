@@ -22,7 +22,7 @@ module ActBlue
     def self.get(name)
       hash = ActiveBlue.get("/page/#{name}", :base_uri => ACTBLUE_URL)
       if hash.response.code == '200'  
-        Page.new hash
+        Page.new hash['page']
       else
         return nil
       end
