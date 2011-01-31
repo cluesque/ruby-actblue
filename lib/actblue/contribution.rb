@@ -3,7 +3,6 @@ module ActBlue
   class Contribution 
     include ActiveBlue
     
-    XML_NAME = 'contribution'
     add_attributes ['order-number', 'created-on']
     add_elements   ['page', 'refcode', 'source', 'timestamp', 'submitter', 'recurring', 'recurringtimes', 'referrer', 'successuri', 'lineitems']
 

@@ -3,7 +3,6 @@ module ActBlue
   class Page 
     include ActiveBlue
     
-    XML_NAME   =  'page'
     add_attributes  ['name', 'partner', 'created-on']
     add_elements    ['title', 'author', 'blurb', 'visibility', 'showcandidatesummary', 'listentries']
     

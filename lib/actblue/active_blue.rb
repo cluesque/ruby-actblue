@@ -23,6 +23,10 @@ module ActBlue
       def attributes
         @attributes || []
       end
+
+      def xml_name
+        @xml_name ||= self.name.split('::').last.downcase
+      end
       
       def add_attributes(attributes)
         @attributes = attributes
@@ -50,6 +54,10 @@ module ActBlue
             @variables[variable_name]
           end
         end
+      end
+
+      def set_xml_name(name)
+        @xml_name = name
       end
 
     end
@@ -143,7 +151,7 @@ module ActBlue
     end
     
     def to_xml_element
-      element = REXML::Element.new(self.class::XML_NAME)
+      element = REXML::Element.new(self.class.xml_name)
       self.class.attributes.each do |a|
         element.add_attribute(a, @variables[a]) if @variables[a]
       end
