@@ -4,7 +4,7 @@ module ActBlue
     include ActiveBlue
     
     add_attributes  ['id']
-    add_elements    ['legalname', 'displayname', 'sortname', 'jurisdiction', 'govid', 'prefacewiththe', 'donate', 'kind', 'state', 'party', 'url', 'visible','candidacy']
+    add_elements    ['legalname', 'displayname', 'sortname', 'jurisdiction', 'govid', 'prefacewiththe', 'donate', 'kind', 'state', 'party', 'url', 'visible','candidacies', 'pages']
 
     def self.get(id)
       hash = ActiveBlue.get("/entity/fundraisers/#{id}", :base_uri => ACTBLUE_URL)

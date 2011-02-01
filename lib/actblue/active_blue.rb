@@ -86,7 +86,8 @@ module ActBlue
     def act_types 
       {
         'source' => ActBlue::Source, 
-        'page' => ActBlue::Page, 
+        'page' => ActBlue::Page,
+        'pages' => collection_lambda(ActBlue::Page),
         'lineitem' => ActBlue::LineItem, 
         'lineitems' => collection_lambda(ActBlue::LineItem),
         'entity' => ActBlue::Entity, 
@@ -98,6 +99,7 @@ module ActBlue
         'check' => ActBlue::Check,
         'creditcard' => ActBlue::CreditCard,
         'candidacy' => ActBlue::Candidacy,
+        'candidacies' => collection_lambda(ActBlue::Candidacy),      
         'office' => ActBlue::Office
       }
     end
