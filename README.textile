@@ -30,6 +30,7 @@ You can:
 * Create new Pages
 * Update Pages
 * Delete Pages
+* View Entities
 
 Note that you _cannot_ post Contributions through the ActBlue API.  We will be sending people directly to actblue.com to make contributions.
 
@@ -132,3 +133,12 @@ Retrieves page metadata for an existing fundraising page.
 <pre>
 @p = Page.get 'reidstandingstrong'
 </pre>
+
+h4. Entity.get
+
+Retrieves entity metadata for an existing fundraising recipient.
+
+<pre>
+@e = Entity.get 1234
+</pre>
+

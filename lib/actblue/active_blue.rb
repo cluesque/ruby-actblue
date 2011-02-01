@@ -66,50 +66,35 @@ module ActBlue
       base.extend ClassMethods
     end
         
-    def line_items_lambda 
-      lambda do |hash| 
-        if (hash.is_a?(Array) && hash.first.class.name == "ActBlue::LineItem") 
+    def collection_lambda(clazz)
+      lambda do |hash|
+        if (hash.is_a?(Array) && hash.first.class == clazz)
           return hash 
         else
           collection = [] 
-          if hash['lineitem'].is_a?(Hash) 
-            collection << LineItem.new(hash['lineitem'])
+          if hash[clazz.xml_name].is_a?(Hash)
+            collection << clazz.new(hash[clazz.xml_name])
           else 
-            hash['lineitem'].each {|l| collection << LineItem.new(l); }
+            hash[clazz.xml_name].each {|l| collection << clazz.new(l); }
           end
           return collection
         end
       end
     end 
-    
-    def listentries_lambda 
-      lambda do |hash| 
-        if (hash.is_a?(Array) && hash.first.class.name == "ActBlue::ListEntry")
-           return hash 
-        else 
-          collection = []
-          if hash['listentry'].is_a?(Hash)
-            collection << ListEntry.new(hash['listentry'])
-          else 
-            hash['listentry'].each {|l| collection << ListEntry.new(l); }
-          end 
-          return collection
-        end
-      end
-    end
+
   
     def act_types 
       {
         'source' => ActBlue::Source, 
         'page' => ActBlue::Page, 
         'lineitem' => ActBlue::LineItem, 
-        'lineitems' => line_items_lambda,
+        'lineitems' => collection_lambda(ActBlue::LineItem),
         'entity' => ActBlue::Entity, 
         'instrument' => ActBlue::Instrument, 
         'election' => ActBlue::Election,
         'expires' => ActBlue::Expires,
         'listentry' => ActBlue::ListEntry,
-        'listentries' => listentries_lambda,
+        'listentries' => collection_lambda(ActBlue::ListEntry),
         'check' => ActBlue::Check,
         'creditcard' => ActBlue::CreditCard,
         'candidacy' => ActBlue::Candidacy,
@@ -122,9 +107,7 @@ module ActBlue
       params.each do |key, value|  
         if value
           if act_types[key.to_s] && act_types[key.to_s].is_a?(Proc)
-            collection = []
-            collection = act_types[key.to_s].call(value) if !value.empty?
-            @variables[key.to_s] = collection
+            @variables[key.to_s] = act_types[key.to_s].call(value) if !value.empty?
           elsif act_types[key.to_s] && value.is_a?(Hash)
             @variables[key.to_s] = act_types[key.to_s].new(value)
           else  
