@@ -1,10 +1,11 @@
 module ActBlue
   
-  class Check < ActiveBlue
+  class Check 
+    include ActiveBlue
     
     XML_NAME   =  'check'
-    ATTRIBUTES =  ['id']
-    ELEMENTS =    ['date', 'number']
+    add_attributes  ['id']
+    add_elements    ['date', 'number']
     
   end
   

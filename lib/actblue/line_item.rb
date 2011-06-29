@@ -1,10 +1,11 @@
 module ActBlue
   
-  class LineItem < ActiveBlue
+  class LineItem
+    include ActiveBlue
     
-    XML_NAME = 'lineitem'
-    ATTRIBUTES = ['id','effective-at', 'status', 'visibility']
-    ELEMENTS = ['amount', 'fee', 'entity', 'aq-fee', 'premium-fee', 'processing-fee', 'jurisdiction']
+    set_xml_name 'lineitem'
+    add_attributes ['id','effective-at', 'status', 'visibility']
+    add_elements   ['amount', 'fee', 'entity', 'aq-fee', 'premium-fee', 'processing-fee', 'jurisdiction']
     
   end
   

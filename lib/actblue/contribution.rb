@@ -1,10 +1,10 @@
 module ActBlue 
   
-  class Contribution < ActiveBlue
+  class Contribution 
+    include ActiveBlue
     
-    XML_NAME = 'contribution'
-    ATTRIBUTES = ['order-number', 'created-on']
-    ELEMENTS = ['page', 'refcode', 'source', 'timestamp', 'submitter', 'recurring', 'recurringtimes', 'referrer', 'successuri', 'lineitems']
+    add_attributes ['order-number', 'created-on']
+    add_elements   ['page', 'refcode', 'source', 'timestamp', 'submitter', 'recurring', 'recurringtimes', 'referrer', 'successuri', 'lineitems']
 
     def self.get(params)
       hash = ActiveBlue.get('/contributions', :query => params)
