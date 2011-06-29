@@ -1,10 +1,11 @@
 module ActBlue
   
-  class ListEntry < ActiveBlue
+  class ListEntry
+    include ActiveBlue
     
-    XML_NAME   =  'listentry'
-    ATTRIBUTES =  ['page','entity','position']
-    ELEMENTS =    ['blurb']
+    set_xml_name 'listentry'
+    add_attributes ['page','entity','position']
+    add_elements   ['blurb']
     
   end
   

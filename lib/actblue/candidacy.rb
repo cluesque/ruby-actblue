@@ -1,10 +1,10 @@
 module ActBlue
   
-  class Candidacy < ActiveBlue
+  class Candidacy 
+    include ActiveBlue
     
-    XML_NAME   =  'candidacy'
-    ATTRIBUTES =  ['id']
-    ELEMENTS =    ['election','result']
+    add_attributes  ['id']
+    add_elements    ['election','result']
     
   end
   

@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper'
+require File.expand_path(File.join(File.dirname(__FILE__), 'spec_helper'))
 
 describe ActBlue::Page do
   
@@ -30,6 +30,24 @@ describe ActBlue::Page do
       end
       page['listentries'][0]['blurb'].should eql "body one"
       page['listentries'][1]['blurb'].should eql "body two"
+    end
+  end
+  
+  describe "accessors" do
+    it "should have basic accessors" do
+      page = Page.new(:title => "test title", "listentries" => {"listentry" => [{:blurb => "body one"}, {:blurb => "body two"}]})
+      page.title.should == 'test title'
+      page.title = 'another title'
+      page.title.should == 'another title'
+      page['title'].should == 'another title'
+    end
+    
+    it "should autotransform accessors with dashes" do
+      t = Time.now
+      page = Page.new('created-on' => t, :title => "test title", "listentries" => {"listentry" => [{:blurb => "body one"}, {:blurb => "body two"}]})
+      page.created_on.should == t
+      page.created_on = 'foo'
+      page['created-on'].should == 'foo'
     end
   end
   
